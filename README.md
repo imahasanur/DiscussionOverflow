@@ -39,7 +39,7 @@ Non Functional:
 ## Used Technology
  FrontEnd: Html, Bootstrap, Fontawesome, Javascript 
  
- Server side: C#, Asp Net MVC (v7.0), Entity FrameWork Core, NUnit Test 
+ Server side: C#, Asp Net MVC (v7.0), Entity FrameWork Core(v7), NUnit Test 
  
  Database : SQL SERVER
  
@@ -49,7 +49,7 @@ Non Functional:
 ## Need to Run the project
  1. Download Packages from NUGET Package Manager
  2. Open project in Visual Studio Build & Run
- 3. Dot Net MVC core(v7)
+ 3. Dot Net MVC (v7)
  4. SQL server
 
 
