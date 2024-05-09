@@ -1,0 +1,11 @@
+﻿.profile{
+    margin-left:80px;
+    min-height: 700px;
+    border:2px solid black;
+}
+
+.profile-img {
+    max-height: 150px;
+    max-width: 150px;
+    
+}

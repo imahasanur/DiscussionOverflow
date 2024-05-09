@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Registration Confirmation";
+}
+
+<h2>Registration Confirmation</h2>
+
+<p>Thank you for registering! An email has been sent to <strong>@ViewBag.Email</strong> with further instructions.</p>
+
+@if (!string.IsNullOrEmpty(ViewBag.ReturnUrl))
+{
+    <p><a href="@ViewBag.ReturnUrl">Return to previous page</a></p>
+}

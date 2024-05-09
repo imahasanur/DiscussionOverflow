@@ -1,0 +1,44 @@
+﻿.top-questions {
+    max-width: 1100px;
+    margin-left:70px;
+}
+
+.question-list {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.question {
+    margin-bottom: 20px;
+}
+
+.question-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.votes,
+.answers {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.question-body h3 {
+    margin-top: 0;
+}
+
+.tags {
+    margin-top: 10px;
+}
+
+.tag {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    margin-right: 5px;
+}

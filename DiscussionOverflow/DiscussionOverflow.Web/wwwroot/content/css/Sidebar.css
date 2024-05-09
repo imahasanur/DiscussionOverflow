@@ -1,0 +1,25 @@
+﻿body {
+}
+.sidebar {
+    position: fixed;
+    top: 75px;
+    left: 0;
+    bottom: 0;
+    z-index: 80;
+    padding: 28px 0; 
+    background-color: #f8f9fa;
+}
+
+.sidebar .nav-link {
+    color: #343a40;
+}
+
+.sidebar .nav-link.active {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.content {
+    margin-left: 150px; 
+    padding: 20px;
+}

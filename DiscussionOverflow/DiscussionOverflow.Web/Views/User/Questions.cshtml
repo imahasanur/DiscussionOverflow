@@ -1,0 +1,80 @@
+﻿@using DiscussionOverflow.Domain.Entities;
+@using Markdig;
+@model List<Question> 
+@{
+    ViewData["Title"] = "Questions";
+}
+<partial name="_Sidebar" />
+
+<div class="top-questions">
+    <div class="d-flex justify-content-between p-1">
+        <h4 style="margin-left:5px;">@ViewData["Title"]</h4>
+        <button style="margin-right:5px;" class="btn btn-outline-primary" id ="ask-question"> <i class="fas fa-question"></i>Ask Qustion</button>
+    </div>
+    
+    <div class="question-list">
+
+        <!-- Adding question entries as needed -->
+        @foreach(var qs in Model)
+        {
+            <div class="question">
+                <div class="question-body" id="question-body-@qs.Id">
+                    <h3>@qs.Title </h3>
+                    <textarea id="editor-@qs.Id">@Html.Raw(qs.Details)</textarea>
+
+                    <div class="tags">
+                        @{
+                            string[] tag = qs.Tags.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                            // Convert array to list of strings
+                            List<string> tagList = new List<string>(tag);
+                            for (var i = 0; i < tagList.Count; i++)
+                            {
+                                <span class="tag">@tagList[i]</span>
+                            }
+                        }
+                        
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+
+<script>
+    document.getElementById("ask-question").onclick = function () {
+        window.location.href = '@Url.Action("CreateQuestion", "User")';
+    };
+
+    var editors = [];
+    @foreach (var question in Model)
+    {
+        <text>
+                var editor = new SimpleMDE({
+                element: document.getElementById("editor-@question.Id"),
+                readOnly: true // Set readOnly option to true
+            });
+        editors.push(editor);
+        </text>
+    }
+
+
+    var questionBodies = document.getElementsByClassName("question-body");
+
+    // Attach click event handler to each "question-body" div
+    for (var i = 0; i < questionBodies.length; i++) {
+        questionBodies[i].addEventListener("click", function () {
+            // Extract the ID from the div's ID attribute
+            var questionId = this.id.substring("question-body-".length); // Extract the part after the last hyphen
+            
+
+            // Construct the URL for the action with the ID parameter
+            var url = '@Url.Action("QuestionDetails", "User")' + '?id=' + questionId;
+
+            // Navigate to the constructed URL
+            window.location.href = url;
+        });
+    }
+
+</script>

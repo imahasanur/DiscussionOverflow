@@ -1,0 +1,59 @@
+﻿@model QuestionModel
+@{
+    ViewData["Title"] = "Ask Qustion";
+}
+<partial name="_Sidebar" />
+<div class="ask-question">
+    <h2>Ask a Question</h2>
+    <form asp-controller="User" asp-action="CreateQuestion" asp-area="" asp-route-returnUrl="/User/TopQuestions" method="post" asp-antiforgery="true">
+        
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="Title">Title</label>
+            <p>Be specific and imagine you’re asking a question to another person.</p>
+            <input type="text" asp-for="Title" id="question-title" class="form-control" aria-required="true"  placeholder="Enter your question title" required>
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Details">What are the details of your problem?</label>
+            <p>Introduce the problem and expand on what you put in the title. Minimum 20 characters.</p>
+            <textarea id="question-body1" asp-for="Details"  class="form-control" rows="5" aria-required="true" placeholder="Enter your question" required></textarea>
+            <span asp-validation-for="Details" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CurrentStatus">What did you try and what were you expecting?</label>
+            <p>Describe what you tried, what you expected to happen, and what actually resulted. Minimum 20 characters.</p>
+            <textarea asp-for="CurrentStatus" id="question-body2"  class="form-control" rows="5" aria-required="true" placeholder="Enter your question" required></textarea>
+            <span asp-validation-for="CurrentStatus" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Tags">Tags</label>
+            <p>
+                Add up to 5 tags to describe what your question is about. Start typing using comma sepearated without white space before and after tag.
+            </p>
+            <input asp-for="Tags" type="text" id="tags"  class="form-control" aria-required="true"  placeholder="Add tags separated by commas Ex: [c,c++]" required>
+            <span asp-validation-for="CurrentStatus" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary question-btn">Post Your Question</button>
+    </form>
+</div>
+
+<script>
+    var simplemde2 = new SimpleMDE({
+        element: document.getElementById("question-body1"),
+      
+    });
+
+    var simplemde3 = new SimpleMDE({
+        element: document.getElementById("question-body2"),
+        
+    });
+
+    document.querySelector('.question-btn').addEventListener('click', function () {
+        // Update textarea values with SimpleMDE content
+        document.getElementById('question-body1').value = simplemde2.value();
+        document.getElementById('question-body2').value = simplemde3.value();
+    });
+</script>

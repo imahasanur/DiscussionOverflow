@@ -1,0 +1,310 @@
+﻿@model QuestionDetailsModel
+@{
+    ViewData["Title"] = "Question Details";
+}
+<partial name="_Sidebar" />
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="question">
+                <h2>@Model.Title</h2>
+                <textarea id="details1">@Model.Details</textarea>
+                <textarea id="details2">@Model.CurrentStatus</textarea>
+                <div class="tags mb-3">
+                    @{
+                        string[] tag = Model.Tags.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                        // Convert array to list of strings
+                        List<string> tagList = new List<string>(tag);
+                        for (var i = 0; i < tagList.Count; i++)
+                        {
+                            <span class="badge badge-primary">@tagList[i]</span>
+                        }
+                    }
+
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="far fa-calendar-alt"></i> Posted on @Model.TimeStamp
+                    </div>
+                    <div>
+                        <i class="far fa-user"></i> Posted By @Model.QuestionMaker
+                    </div>
+                    <div class="vote-buttons">
+                        @{
+                            var votes = @Model.Votes;
+                            foreach (var vote in votes)
+                            {
+                                foreach(var voteCount in vote)
+                                {
+                                    if(voteCount.QuestionId == @Model.Id)
+                                    {
+                                        if(voteCount.UpVote != null)
+                                        {
+                                            <span class=" vote-count">@voteCount.UpVote</span> <i class="far fa-thumbs-up vote-buttons-question"></i>
+                                        }
+                                        else
+                                        {
+                                            <span class=" vote-count">0</span> <i class="far fa-thumbs-up vote-buttons-question"></i>
+                                        }
+                                        if (voteCount.DownVote != null)
+                                        {
+                                            <span class=" vote-count">@voteCount.DownVote</span> <i class="far fa-thumbs-down vote-buttons-question"></i>
+                                        }
+                                        else
+                                        {
+                                            <span class="vote-count">0</span> <i class="far fa-thumbs-down vote-buttons-question"></i>
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+
+                    </div>
+                </div>
+                <hr />
+                <div class="comments mt-3">
+                    <div class="comment">
+                        @{
+                            var comments = Model.Comments;
+                            foreach (var comment in comments)
+                            {
+                                foreach (var qsComment in comment)
+                                {
+                                    if (qsComment.QuestionId == @Model.Id)
+                                    {
+                                        <p>@qsComment.CommentBody</p>
+
+                                        <div class="comment-time"> <i class="far fa-user"></i> @qsComment.Commentator <i class="far fa-clock"></i>  -- @qsComment.TimeStamp </div>
+                                     
+                                    }
+
+                                }
+                            }
+                        }
+                        
+                    </div>
+                </div>
+                <form asp-controller="User" asp-action="QuestionDetails" asp-area="" asp-route-returnUrl="/User/QuestionDetails" enctype="multipart/form-data" method="post" asp-antiforgery="true">
+                    <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+                    <div class="form-group">
+                        <input type="hidden" asp-for="QuestionId" aria-required="true" value="@Model.Id">
+                        <input type="hidden" asp-for="QuestionMakerOfQs" aria-required="true" value="@Model.QuestionMaker">
+                        <input type="hidden" asp-for="Commentator" aria-required="true" value="@User.Identity?.Name">
+                        <input type="hidden" asp-for="GetId" aria-required="true" value="@Model.Id">
+                        
+                        <label asp-for="CommentBody">Comment</label>
+                        <p>Post your comment</p>
+                        <input type="text" asp-for="CommentBody" aria-required="true" id="Comment" class="form-control" placeholder="comment" required>
+                    </div>
+                    <button type="submit" id="comment-btn1" class="btn btn-primary question-btn ">Post</button>
+                </form>
+
+            </div>
+
+
+            <div class="answers">
+                <h4 class="p-2">Answer</h4>
+                <div class="answer">
+                    @{
+                        var answers = Model.Answers;
+                        foreach(var answer in answers)
+                        {
+                            <hr />
+                            <textarea id="answer-@answer.Id">@answer.AnswerBody</textarea>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p><i class="far fa-calendar-alt"></i> Answered on @answer.TimeStamp </p>
+                                </div>
+                                <div>
+                                    <p><i class="far fa-user"></i> Answered By @answer.Replier</p>
+                                </div>
+                                <div class="vote-buttons">
+                                    @{
+                                        var allVote = @Model.Votes;
+                                        foreach (var vote in allVote)
+                                        {
+                                            foreach (var voteCount in vote)
+                                            {
+                                                if (voteCount.AnswerId == answer.Id)
+                                                {
+                                                    if (voteCount.UpVote != null)
+                                                    {
+                                                        <span class=" vote-count">@voteCount.UpVote</span> <i class="far fa-thumbs-up vote-buttons-answer" id="answers-@answer.Id"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class=" vote-count">0</span> <i class="far fa-thumbs-up vote-buttons-answer" id="answers-@answer.Id"></i>
+                                                    }
+                                                    if (voteCount.DownVote != null)
+                                                    {
+                                                        <span class=" vote-count">@voteCount.DownVote</span> <i class="far fa-thumbs-down vote-buttons-answer" id="answers-@answer.Id"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class=" vote-count">0</span> <i class="far fa-thumbs-down vote-buttons-answer" id="answers-@answer.Id"></i>
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+
+
+                                </div>
+                            </div>
+                            <div class="comments mt-3">
+                                @{
+                                    var allComment = @Model.Comments;
+
+                                    foreach(var comment in allComment){
+                                        foreach(var ansComment in comment){
+                                            if(ansComment.AnswerId == answer.Id){
+                                                <div class="comment">
+                                                    <p>@ansComment.CommentBody</p>
+                                                    <div class="comment-time"><i class="far fa-clock"></i> @ansComment.TimeStamp</div>
+                                                    <div>
+                                                        <i class="far fa-user"></i> Commented By @ansComment.Commentator
+                                                    </div>
+                                                </div>
+                                            }
+
+                                        }
+                                    }
+
+                                }
+                            </div>
+                            <form asp-controller="User" asp-action="QuestionDetails" asp-area="" asp-route-returnUrl="/User/QuestionDetails" enctype="multipart/form-data" method="post" asp-antiforgery="true">
+                                <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+                                <div class="form-group">
+                                    <input type="hidden" asp-for="AnswerId" aria-required="true" value="@answer.Id">
+                                    <input type="hidden" asp-for="ReplierOfQs" aria-required="true" value="@answer.Replier">
+                                    <input type="hidden" asp-for="Commentator" aria-required="true" value="@User.Identity?.Name">
+                                    <input type="hidden" asp-for="GetId" aria-required="true" value="@Model.Id">
+
+                                    <label asp-for="CommentBody">Comment</label>
+                                    <p>Post your answer comment</p>
+                                    <input type="text" asp-for="CommentBody" aria-required="true" id="Comment" class="form-control" placeholder="comment" required>
+                                </div>
+                                <button type="submit" id="comment-btn2" class="btn btn-primary question-btn ">Post</button>
+                            </form>
+                            
+                        }
+                    }
+                    
+                </div>
+            </div>
+
+            <div class="user-reply">
+
+                <form asp-controller="User" asp-action="QuestionDetails" asp-area="" asp-route-returnUrl="/User/QuestionDetails"  method="post" asp-antiforgery="true">
+                    <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+
+                    <div class="form-group">
+                        <input type="hidden" asp-for="RepliedQuestionId" aria-required="true" value="@Model.Id">
+                        <input type="hidden" asp-for="RepliedQuestionMaker" aria-required="true" value="@Model.QuestionMaker">
+                        <input type="hidden" asp-for="Replier" aria-required="true" value="@User.Identity?.Name">
+                        <input type="hidden" asp-for="GetId" aria-required="true" value="@Model.Id">
+                    </div>
+
+                    <div class="form-group">
+
+                        <label asp-for="AnswerBody">Your answer</label>
+                        <textarea id="reply"  asp-for="AnswerBody" class="form-control" rows="5" placeholder="Enter your answer" required></textarea>
+                    </div>
+
+                    <button type="submit" id="reply-btn1" class="btn btn-primary question-btn reply-btn ">Post </button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var simplemde5 = new SimpleMDE({
+        element: document.getElementById("reply"),
+        
+    });
+    
+        var simplemde8 = new SimpleMDE({
+            element: document.getElementById("details1"),
+            
+        });
+    
+
+   
+        var simplemde9 = new SimpleMDE({
+            element: document.getElementById("details2"),
+            
+        });
+
+
+    var answerMde = [];
+    @foreach (var ans in Model.Answers)
+    {
+        <text>
+                var editor = new SimpleMDE({
+                element: document.getElementById("answer-@ans.Id"),
+                readOnly: true // Set readOnly option to true
+            });
+        answerMde.push(editor);
+        </text>
+    }
+
+    document.querySelector('.reply-btn').addEventListener('click', function () {
+        
+        document.getElementById('reply').value = simplemde5.value();
+        // Submit the form
+        this.closest('form').submit();
+    });
+
+
+
+    // Function to handle vote count click for questions
+    document.querySelectorAll('.vote-buttons-question').forEach(function (element) {
+        element.addEventListener('click', function () {
+            
+            var questionId = '@Model.Id'; 
+            var voteType = element.classList.contains('fa-thumbs-up') ? 'upvote' : 'downvote'; 
+
+            // Make an AJAX request to handle the vote
+            $.post('/User/HandleVote', { id: questionId, type: voteType, postItem:"Question" }, function (data) {
+                // Update the vote count display based on the response
+                if (data.success) {
+                    window.location.reload();
+                } else {
+                    // Handle error if the vote could not be processed
+                    console.error('Failed to handle vote');
+                }
+            });
+        });
+    });
+
+
+
+
+    // Function to handle vote count click for answers
+    document.querySelectorAll('.vote-buttons-answer').forEach(function (element) {
+        element.addEventListener('click', function () {
+            // Handle vote count click for answers here
+            var answerId = this.id.substring("answers-".length); // Get the answer ID
+            var voteType = element.classList.contains('fa-thumbs-up') ? 'upvote' : 'downvote'; 
+
+            // Make an AJAX request to handle the vote
+            $.post('/User/HandleVote', { id: answerId, type: voteType, postItem: "Answer" }, function (data) {
+                // Update the vote count display based on the response
+                if (data.success) {
+                    window.location.reload();
+                } else {
+                    // Handle error if the vote could not be processed
+                    console.error('Failed to handle vote');
+                }
+            });
+        });
+    });
+</script>
+

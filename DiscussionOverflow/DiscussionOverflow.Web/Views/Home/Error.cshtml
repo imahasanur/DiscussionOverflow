@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewData["Title"] = "Error Page";
+}
+
+<h2>Error</h2>
+
+<p>An error occurred while processing your request. Please try again later or contact support for assistance.</p>
+
+<p>Error Details: @ViewBag.ErrorMessage</p>
+
+<p><a href="@Url.Action("Index", "Home")">Back to Home</a></p>

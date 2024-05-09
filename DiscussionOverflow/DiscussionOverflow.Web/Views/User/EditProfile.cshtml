@@ -1,0 +1,71 @@
+﻿@model EditProfileModel
+@{
+    ViewData["Title"] = "Edit Profile";
+    
+}
+<partial name="_Sidebar" />
+
+<div class="edit-profile">
+    <h2>Edit Your Profile</h2>
+    <hr />
+    <h4>Public information</h4>
+    <div class="profile-img">
+        <img src="@Model.S3Url" alt="@Model.FullName" style="height:100px; width:100px;" />
+    </div>
+    <form asp-controller="User" asp-action="EditProfile" asp-area="" asp-route-returnUrl="/User/Profile" enctype="multipart/form-data" method="post" asp-antiforgery="true">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        <div class="form-group">
+            <label asp-for="ImageFile">Image</label>
+            <p>Choose your image.</p>
+            <input type="file" asp-for="ImageFile" aria-required="true" id="user-image" class="form-control" placeholder="choose img file" >
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DisplayName">Display Name</label>
+            <input type="text" asp-for="DisplayName" id="display-name" aria-required="true" class="form-control" placeholder="your display name" required>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Location">Location</label>
+            <input type="text" asp-for="Location" id="location" class="form-control" aria-required="true" placeholder="Write your address" >
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Title">Title</label>
+            <input type="text" asp-for="Title" id="title" class="form-control" aria-required="true" placeholder="Write title">
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Intro">About me</label>
+            <textarea id="about" asp-for="Intro" class="form-control" rows="5" placeholder="Enter information about you" aria-required="true" ></textarea>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PortfolioSite">Website Link</label>
+            <input type="text" asp-for="PortfolioSite" id="portfolio-site" class="form-control" aria-required="true" placeholder="Your website" >
+        </div>
+
+        <div class="form-group">
+            <label asp-for="FullName">Private Information</label>
+            <p>
+                Full Name
+            </p>
+            <input type="text" asp-for="FullName" id="user-name" aria-required="true" class="form-control" placeholder="Your name.." required>
+        </div>
+        <button type="submit" class="btn btn-primary question-btn">Save Profile</button>
+    </form>
+</div>
+
+<script>
+    var simplemde1 = new SimpleMDE({
+        element: document.getElementById("about"),
+    });
+
+    document.querySelector('.question-btn').addEventListener('click', function () {
+        // Update textarea values with SimpleMDE content
+        document.getElementById('about').value = simplemde1.value();
+        
+    });
+</script>
+

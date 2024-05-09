@@ -1,0 +1,174 @@
+﻿@model ProfileModel
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+@{
+    DateTime date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+    var totalday = date - Model.Time;
+    var days = totalday.Value.Days;
+}
+<partial name="_Sidebar" />
+<div class="profile">
+    <div class=" row">
+        <div class="col col-sm-6 col-lg-4 col-md-4">
+            <div class="profile-img">
+                <img src="@Model.S3Url" alt="@Model.DisplayName" style="height:140px; width:140px;" />
+            </div>
+        </div>
+        <div class="col col-sm-6 col-lg-8 col-md-8">
+            <div class="d-flex justify-content-end">
+                <button class="btn bt-info" id="edit-profile"><i class="fa fa-pen"></i>Edit Profile</button>
+            </div>
+            <h3>@Model.DisplayName</h3>
+            <div class="d-flex justify-content-start">
+                <p class="p-2"><i class="fas fa-birthday-cake"></i> Member for @days days</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-lg-4 col-md-4 col-sm-6">
+            <h5>Stats</h5>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <p>@Model.Reputation</p>
+                    <p>reputation</p>
+                </div>
+                <div>
+                    <p>@Model.Questions?.Count</p>
+                    <p>questions</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="col col-lg-8 col-md-8 col-sm-6">
+            <h5>About</h5>
+            <div class="d-flex justify-content-start">
+                <p>@Model.Intro</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-lg-4 col-md-4 col-sm-6"></div>
+        <div class="col col-lg-8 col-md-8 col-sm-6">
+            <h5>Badges</h5>
+            <div class="d-flex justify-content-between">
+                <div class="card">
+                    <div class="card-img d-flex justify-content-center"><i style="font-size: 24px;" class="fas fa-id-badge"></i></div>
+                    <div class="card-body">
+                        <p>Gold Badge</P>
+                        <p>Need > 99 reputation</p>
+                    </div>
+                    <div class="card-footer">
+                        @{
+                            if (Model.Reputation > 99)
+                            {
+                                <button class="btn btn-success" type="submit">Gold badge</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-primary" type="submit">Browse a Question</button>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img d-flex justify-content-center"><i style="font-size: 24px;" class="fas fa-id-badge"></i></div>
+                    <div class="card-body">
+                        <p>Silver Badge</P>
+                        <p>Need > 24 reputation</p>
+                    </div>
+                    <div class="card-footer">
+                        @{
+                            if (Model.Reputation > 24)
+                            {
+                                <button class="btn btn-success" type="submit">Silver badge</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-primary" type="submit">Ask a Question</button>
+                            }
+                        }
+                        
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img d-flex justify-content-center"><i style="font-size: 24px;" class="fas fa-id-badge"></i></div>
+                    <div class="card-body">
+                        <p>Primary Badge</p>
+                    </div>
+                    <div class="card-footer">
+                        @{
+                            if(Model.Reputation > 0)
+                            {
+                                <button class="btn btn-success" type="submit">Informed</button>
+                            }
+                        }
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col col-lg-4 col-md-4 col-sm-6"></div>
+        <div class="col col-lg-8 col-md-8 col-sm-6">
+            <h4>Your Questions</h4>
+
+            @{
+                var questions = Model.Questions;
+                foreach(var qs in questions)
+                {
+                    <div class="question">
+                        <div class="question-body" id="question-body-@qs.Id">
+                            <h3>@qs.Title </h3>
+                     
+                            <div class="tags">
+                                @{
+                                    string[] tag = qs.Tags.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                                
+                                    List<string> tagList = new List<string>(tag);
+                                    for (var i = 0; i < tagList.Count; i++)
+                                    {
+                                        <span class="tag">@tagList[i]</span>
+                                    }
+                                }
+                        
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+     </div>
+
+</div>
+
+<script>
+    document.getElementById("edit-profile").onclick = function () {
+        window.location.href = '@Url.Action("EditProfile", "User")'; 
+    };
+
+    var questionBodies = document.getElementsByClassName("question-body");
+
+    // Attach click event handler to each "question-body" div
+    for (var i = 0; i < questionBodies.length; i++) {
+        questionBodies[i].addEventListener("click", function () {
+            // Extract the ID from the div's ID attribute
+            var questionId = this.id.substring("question-body-".length); // Extract the part after the last hyphen
+            
+            var url = '@Url.Action("QuestionDetails", "User")' + '?id=' + questionId;
+
+            // Navigate to the constructed URL
+            window.location.href = url;
+        });
+    }
+</script>

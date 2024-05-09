@@ -1,0 +1,136 @@
+﻿body {
+    padding:0px;
+    margin:0px;
+}
+
+.front-part {
+    height: 500px;
+    max-width: 1100px;
+    background-color: whitesmoke;
+}
+
+.front-card1 {
+    min-height: 300px;
+    background-color: #D6E8FA;
+}
+
+.front-card2 {
+    min-height: 300px;
+    background-color: #FBDBC1;
+}
+
+.front-part2 {
+    height: 500px;
+    max-width: 1100px;
+    background-color: #F9FAFA;
+}
+
+.front-card10 {
+    min-height: 300px;
+    background-color: #F6B27A;
+}
+
+.front-card20 {
+    min-height: 300px;
+    background-color: #92C2F2;
+}
+
+.front-icon1 {
+    color: #277CD3;
+    
+}
+
+.front-icon2 {
+    color: #E7700D;
+
+}
+
+.middle-part {
+    min-height: 700px;
+    max-width: 1100px;
+    background-color: black;
+}
+
+.middle-part1 {
+    min-height: 400px;
+    margin-top: 150px;
+    padding-top:100px;
+    max-width: 1100px;
+    background-color: black;
+    border-bottom: 1px dotted red;
+}
+
+.middle-part2{
+    padding-top:50px;
+}
+
+.inside-middle-part {
+    color: white;
+}
+
+.last-part {
+    height: 500px;
+    max-width: 1200px;
+    background-color: #F9FAFA;
+}
+
+.last-card1 {
+    background-color: #F9FAFA;
+}
+
+.footer-part {
+    min-height: 150px;
+    min-width: 500px;
+    margin-top: 10px;
+    padding-top:10px;
+    color: white !important;
+    font-size: 14px;
+}
+
+footer {
+    margin-top: 10px;
+    background-color: #0C0D0E;
+    padding: 1px 0;
+    text-align: center;
+    color: white;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer-column {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.footer-column:last-child {
+    margin-right: 0;
+}
+
+.footer-column h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+ }
+
+.footer-column ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 8px;
+}
+
+.footer-column ul li a {
+    color: White;
+    text-decoration: none;
+}
+
+.footer-column ul li a:hover {
+    color: #f48024;
+}

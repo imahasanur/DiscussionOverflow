@@ -1,0 +1,43 @@
+﻿@using DiscussionOverflow.Domain.Entities;
+@using Markdig;
+@model List<Notification>
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+<partial name="_Sidebar" />
+
+<div class="top-questions">
+    <div class="d-flex justify-content-between p-1">
+        <h4 style="margin-left:5px;"><i class="far fa-envelope-open"></i> @ViewData["Title"]</h4>
+    </div>
+
+    <div class="question-list">
+
+        <!-- Adding question entries as needed -->
+        @foreach (var notification in Model)
+        {
+            <div class="question">
+                <div class="question-body" >
+                    @{
+                        if(notification.Replier != null)
+                        {
+
+                            <p><i class="fas fa-reply"></i> You just received a Answer from @notification.Replier .</p>
+                            <p>On your Question <h5>@notification.QuestionTitle </h5> at @notification.TimeStamp this time.</p>
+                        }
+                        else
+                        {
+                            <p><i class="far fa-comment"></i> You just received a Comment from @notification.Commentator.</p>
+                            <p>On your Question <h5>@notification.QuestionTitle </h5> at @notification.TimeStamp this time.</p>
+                        }
+                    }
+                    
+
+                    
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
