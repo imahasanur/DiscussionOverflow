@@ -49,7 +49,8 @@ Non Functional:
 ## Need to Run the project
  1. Download Packages from NUGET Package Manager
  2. Open project in Visual Studio Build & Run
- 3. Dot Net (v7)
+ 3. Dot Net MVC core(v7)
+ 4. SQL server
 
 
 ## Connect with me
