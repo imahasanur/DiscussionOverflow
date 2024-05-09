@@ -37,10 +37,13 @@ Non Functional:
 
 
 ## Used Technology
-FrontEnd: Html, Bootstrap, Fontawesome, Javascript 
-Server side: C#, Asp Net MVC (v7.0), Entity FrameWork Core, NUnit Test 
-Database : SQL SERVER
-Tool : Visual Studio
+ FrontEnd: Html, Bootstrap, Fontawesome, Javascript 
+ 
+ Server side: C#, Asp Net MVC (v7.0), Entity FrameWork Core, NUnit Test 
+ 
+ Database : SQL SERVER
+ 
+ Tool : Visual Studio
 
 
 ## Need to Run the project
